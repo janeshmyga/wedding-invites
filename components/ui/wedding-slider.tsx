@@ -185,7 +185,7 @@ export function WeddingSlider({
           media: sharedPhotos.travel,
         },
         {
-          title: `Встреча с ${guestName}`,
+          title: guestName,
           description: guestMeetingDescription,
           media: guestMeetingPhoto,
         },

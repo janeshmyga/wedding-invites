@@ -170,11 +170,14 @@
 
 .slide-content {
   position: absolute;
-  bottom: 100px;
-  left: 32px;
-  right: 32px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 10;
   pointer-events: none;
+  text-align: center;
+  width: calc(100% - 40px);
+  max-width: 600px;
 }
 
 .slide-title {
@@ -195,6 +198,7 @@
   font-weight: 300;
   color: rgba(255, 255, 255, 0.75);
   max-width: 500px;
+  margin: 0 auto;
   line-height: 1.6;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
@@ -202,20 +206,34 @@
 
 .slides-navigation {
   position: absolute;
-  bottom: 32px;
-  left: 32px;
-  right: 32px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
   z-index: 10;
 }
 
 .slide-nav-item {
-  flex: 1;
+  flex: 1 1 calc(33.333% - 6px);
+  min-width: 0;
   cursor: pointer;
   padding: 8px 0;
   transition: opacity 0.3s ease;
   opacity: 0.5;
+}
+
+@media (min-width: 768px) {
+  .slides-navigation {
+    flex-wrap: nowrap;
+    bottom: 32px;
+    left: 32px;
+    right: 32px;
+  }
+  .slide-nav-item {
+    flex: 1;
+  }
 }
 .slide-nav-item.active {
   opacity: 1;
