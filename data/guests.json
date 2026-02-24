@@ -18,6 +18,12 @@
       "name": "Петя",
       "meetingDescription": "Наш друг с университетских времён — сколько всего мы пережили вместе!",
       "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+    },
+    {
+      "slug": "sveta",
+      "name": "Света",
+      "meetingDescription": "Наш друг с ЛЮБЛЮ СВЕТУ времён — сколько всего мы пережили вместе!",
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
     }
   ]
 }
