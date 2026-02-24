@@ -1,0 +1,23 @@
+{
+  "sharedPhotos": {
+    "childhood": "https://assets.codepen.io/7558/orange-portrait-001.jpg",
+    "firstMeeting": "https://assets.codepen.io/7558/orange-portrait-002.jpg",
+    "travel": "https://assets.codepen.io/7558/orange-portrait-003.jpg",
+    "proposal": "https://assets.codepen.io/7558/orange-portrait-005.jpg",
+    "wedding": "https://assets.codepen.io/7558/orange-portrait-006.jpg"
+  },
+  "guests": [
+    {
+      "slug": "masha",
+      "name": "Маша",
+      "meetingDescription": "Помнишь тот вечер, когда мы впервые встретились у Саши?",
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+    },
+    {
+      "slug": "petya",
+      "name": "Петя",
+      "meetingDescription": "Наш друг с университетских времён — сколько всего мы пережили вместе!",
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+    }
+  ]
+}
