@@ -11,19 +11,22 @@
       "slug": "masha",
       "name": "Маша",
       "meetingDescription": "Помнишь тот вечер, когда мы впервые встретились у Саши?",
-      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg",
+      "personalSlidePosition": 4
     },
     {
       "slug": "petya",
       "name": "Петя",
       "meetingDescription": "Наш друг с университетских времён — сколько всего мы пережили вместе!",
-      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg",
+      "personalSlidePosition": 3
     },
     {
       "slug": "sveta",
       "name": "Света",
-      "meetingDescription": "Наш друг с ЛЮБЛЮ СВЕТУ времён — сколько всего мы пережили вместе!",
-      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg"
+      "meetingDescription": "Люблю Светика",
+      "meetingPhoto": "https://assets.codepen.io/7558/orange-portrait-004.jpg",
+      "personalSlidePosition": 1
     }
   ]
 }

@@ -15,6 +15,7 @@ interface WeddingSliderProps {
   guestName: string;
   guestMeetingDescription: string;
   guestMeetingPhoto: string;
+  guestPersonalSlidePosition: number;
   sharedPhotos: {
     childhood: string;
     firstMeeting: string;
@@ -28,6 +29,7 @@ export function WeddingSlider({
   guestName,
   guestMeetingDescription,
   guestMeetingPhoto,
+  guestPersonalSlidePosition,
   sharedPhotos,
 }: WeddingSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -165,7 +167,7 @@ export function WeddingSlider({
       const TRANSITION_DURATION = () =>
         SLIDER_CONFIG.settings.transitionDuration;
 
-      const slides: SlideData[] = [
+      const sharedSlides: SlideData[] = [
         {
           title: "Детство",
           description:
@@ -185,11 +187,6 @@ export function WeddingSlider({
           media: sharedPhotos.travel,
         },
         {
-          title: guestName,
-          description: guestMeetingDescription,
-          media: guestMeetingPhoto,
-        },
-        {
           title: "Предложение",
           description:
             'Один вопрос, одно «да» — и начало новой главы нашей жизни',
@@ -201,6 +198,19 @@ export function WeddingSlider({
             "Мы женимся! И будем счастливы видеть вас в этот день",
           media: sharedPhotos.wedding,
         },
+      ];
+
+      const guestSlide: SlideData = {
+        title: guestName,
+        description: guestMeetingDescription,
+        media: guestMeetingPhoto,
+      };
+
+      const insertAt = Math.max(0, Math.min(5, guestPersonalSlidePosition - 1));
+      const slides: SlideData[] = [
+        ...sharedSlides.slice(0, insertAt),
+        guestSlide,
+        ...sharedSlides.slice(insertAt),
       ];
 
       // --- SHADERS ---
@@ -757,7 +767,7 @@ export function WeddingSlider({
 
     loadScripts();
     return () => {};
-  }, [guestName, guestMeetingDescription, guestMeetingPhoto, sharedPhotos]);
+  }, [guestName, guestMeetingDescription, guestMeetingPhoto, guestPersonalSlidePosition, sharedPhotos]);
 
   return (
     <main className="slider-wrapper" ref={containerRef}>

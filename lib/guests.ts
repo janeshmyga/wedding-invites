@@ -5,6 +5,7 @@ export interface Guest {
   name: string;
   meetingDescription: string;
   meetingPhoto: string;
+  personalSlidePosition?: number;
 }
 
 export interface SharedPhotos {

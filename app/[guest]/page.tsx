@@ -36,6 +36,7 @@ export default async function GuestPage({
       guestName={guest.name}
       guestMeetingDescription={guest.meetingDescription}
       guestMeetingPhoto={guest.meetingPhoto}
+      guestPersonalSlidePosition={guest.personalSlidePosition ?? 4}
       sharedPhotos={sharedPhotos}
     />
   );
