@@ -5,12 +5,12 @@
 Каждый гость получает уникальную ссылку (например `домен.ru/masha`), где 4-й слайд персонализирован.
 
 ## Стек
-- **Framework**: Next.js 15 (App Router, SSG)
+- **Framework**: Next.js 16 (App Router, static export)
 - **Styling**: Tailwind CSS 4 + shadcn/ui
 - **Animations**: GSAP 3 + Three.js (WebGL шейдеры)
 - **Шрифт**: Cormorant Garamond (Google Fonts)
-- **Хостинг**: Vercel + свой домен (ещё не подключён)
-- **Фото**: Cloudinary (ещё не настроен)
+- **Хостинг**: Cloudflare Pages + свой домен (ещё не подключён)
+- **Фото**: Cloudflare R2 (бакет для хранения фото, бесплатно до 10 ГБ)
 
 ## Структура проекта
 ```
@@ -36,34 +36,39 @@ lib/
 6. **Save the Date** — общая фото (shared)
 
 ## Как добавить нового гостя
-1. Загрузить совместное фото в Cloudinary (папка `wedding/guests/`)
+1. Загрузить совместное фото в Cloudflare R2 (папка `guests/`)
 2. Добавить запись в `data/guests.json`
-3. Задеплоить (`git push` — Vercel сделает ребилд автоматически)
+3. Задеплоить (`git push` — Cloudflare Pages сделает ребилд автоматически)
 
 ## Конвенции
 - Язык кода: TypeScript
 - Компоненты: React Server Components по умолчанию, `"use client"` только где нужен браузерный API
 - Стили: Tailwind utility classes + CSS variables в globals.css
 - Данные гостей: JSON файл (без базы данных, достаточно для 30-100 гостей)
-- Фото: все URL ведут на Cloudinary, не хранить в репозитории
+- Фото: все URL ведут на Cloudflare R2 (публичный бакет), не хранить в репозитории
 
 ## Команды
 ```bash
-npm run dev      # Запуск dev-сервера (localhost:3000)
-npm run build    # Билд для продакшена (SSG)
-npm run start    # Запуск продакшен-сервера
+npm run dev           # Запуск dev-сервера (localhost:3000)
+npm run build         # Билд для продакшена (static export → папка out/)
+npm run pages:deploy  # Деплой на Cloudflare Pages (npx wrangler pages deploy out)
 ```
 
 ---
 
 ## TODO — что осталось сделать
 
-### 1. Настроить Cloudinary (хранение фото)
-- [ ] Зарегистрироваться на https://cloudinary.com (бесплатно, 25GB)
-- [ ] Создать папки: `wedding/shared/` и `wedding/guests/`
-- [ ] Загрузить 5 общих фото (детство, первая встреча, путешествия, предложение, свадьба)
-- [ ] Загрузить персональные фото с каждым гостем в `wedding/guests/`
-- [ ] Заменить placeholder URL-ы в `data/guests.json` на реальные ссылки из Cloudinary
+### 1. Настроить Cloudflare R2 (хранение фото)
+- [ ] В Cloudflare Dashboard: R2 Object Storage → Create bucket (например `wedding-photos`)
+- [ ] Включить публичный доступ: Settings → Public Access → Enable (получишь домен типа `pub-xxx.r2.dev`)
+- [ ] Загрузить фото через Dashboard или CLI (`wrangler r2 object put`):
+  - `shared/childhood.jpg` — фото детства
+  - `shared/first-meeting.jpg` — первая встреча
+  - `shared/travel.jpg` — путешествия
+  - `shared/proposal.jpg` — предложение
+  - `shared/wedding.jpg` — save the date
+  - `guests/katya.jpg`, `guests/petya.jpg` и т.д. — персональные фото
+- [ ] Заменить placeholder URL-ы в `data/guests.json` на реальные ссылки из R2
 
 ### 2. Заполнить данные гостей
 - [ ] Открыть `data/guests.json`
@@ -73,26 +78,40 @@ npm run start    # Запуск продакшен-сервера
     "slug": "katya",
     "name": "Катя",
     "meetingDescription": "Наша лучшая подруга!",
-    "meetingPhoto": "https://res.cloudinary.com/ВАШЕ_ИМЯ/image/upload/wedding/guests/katya.jpg"
+    "meetingPhoto": "https://pub-xxx.r2.dev/guests/katya.jpg"
   }
   ```
 - [ ] `slug` — это часть URL (латиницей, без пробелов): `домен.ru/katya`
 - [ ] `name` — заголовок 4-го слайда (как хочешь: "Катя", "Катюша", "Семья Ивановых")
-- [ ] Заменить placeholder URL-ы в `sharedPhotos` на реальные
+- [ ] Заменить placeholder URL-ы в `sharedPhotos` на реальные из R2
 
-### 3. Деплой на Vercel
-- [ ] Зайти на https://vercel.com и войти через GitHub
-- [ ] Нажать "Add New Project" → импортировать `janeshmyga/wedding-invites`
-- [ ] Нажать Deploy (настройки менять не нужно — Next.js определится автоматически)
-- [ ] После деплоя получишь ссылку типа `wedding-invites.vercel.app`
+### 3. Деплой на Cloudflare Pages
+Сайт полностью статический (static export), поэтому не нужны адаптеры — просто деплоим папку `out/`.
+
+**Вариант А — через Git (автодеплой при push):**
+- [ ] В Cloudflare Dashboard: Workers & Pages → Create → Pages → Connect to Git
+- [ ] Импортировать репозиторий
+- [ ] Настройки билда:
+  - Build command: `npm run build`
+  - Build output directory: `out`
+- [ ] После деплоя получишь ссылку типа `wedding-invites.pages.dev`
+
+**Вариант Б — через CLI (ручной деплой):**
+- [ ] `npm install -g wrangler && wrangler login`
+- [ ] `npm run build && npm run pages:deploy`
 
 ### 4. Подключить свой домен
-- [ ] В Vercel: Settings → Domains → добавить свой домен
-- [ ] У регистратора домена: настроить DNS-записи (Vercel покажет какие)
-- [ ] Дождаться пока DNS обновится (до 48 часов, обычно 5-30 минут)
+- [ ] В Cloudflare Pages: Custom domains → добавить свой домен
+- [ ] Если домен уже на Cloudflare — DNS настроится автоматически
+- [ ] Если домен у другого регистратора — перенести NS на Cloudflare или добавить CNAME
 
-### 5. Финальная проверка
+### 5. Оптимизация фото
+- [ ] Рассмотреть сжатие фото перед загрузкой (оригиналы по 13 МБ тяжёлые для мобильных)
+- [ ] Вариант: Cloudflare Image Resizing (платно) или сжать заранее через tinypng.com / squoosh.app
+- [ ] Целевой размер: 200-500 КБ на фото (достаточно для fullscreen на мобилке)
+
+### 6. Финальная проверка
 - [ ] Проверить каждую ссылку гостя (`домен.ru/masha`, `домен.ru/petya` и т.д.)
 - [ ] Проверить на мобильном телефоне (основная аудитория!)
-- [ ] Убедиться что все фото загружаются
+- [ ] Убедиться что все фото загружаются быстро
 - [ ] Проверить 404 для несуществующих ссылок
