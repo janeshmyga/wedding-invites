@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/wedding",
+      "destination": "https://weddingwebsite-roma-and-jane.vercel.app/"
+    },
+    {
+      "source": "/wedding/:path*",
+      "destination": "https://weddingwebsite-roma-and-jane.vercel.app/:path*"
+    }
+  ]
+}
